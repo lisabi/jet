@@ -1,0 +1,8 @@
+<div>
+  <h1>Easily inspect incoming</h1>
+  <h2>HTTP Requests</h2>
+  <p>This free service gives you a unique URL to send requests to and inspect them.</p>
+
+  <%= link("Create your own dump", to: Routes.page_path(@conn, :create_dump)) %>
+
+</div>
