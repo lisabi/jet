@@ -1,8 +1,12 @@
-<div>
-  <h1>Easily inspect incoming</h1>
-  <h2>HTTP Requests</h2>
-  <p>This free service gives you a unique URL to send requests to and inspect them.</p>
+<div class="w-6/12 m-auto text-center py-24">
+  <div class="pattern-dots-md red text-pattern max-w-20pc overflow-visible">
+    <h1 class="text-5xl text-gray-700">Inspect, Direct incoming HTTP Requests</h1>
+  </div>
 
-  <%= link("Create your own dump", to: Routes.page_path(@conn, :create_dump)) %>
+  <p class="mb-28 mt-12 text-lg text-gray-500">This free service gives you a unique URL to send requests to and inspect them.</p>
+
+  <%= link(to: Routes.page_path(@conn, :create_sandbox), class: "bg-green-600 hover:bg-green-700 py-3 px-6 text-white rounded-lg inline-block shadow-lg")  do %>
+    Create Sandbox<img src="<%= Routes.static_path(@conn, "/images/d.png") %>" alt="Arrow icon" width="18px" class="ml-2 inline float-right mt-1 shadow-xl">
+  <% end %>
 
 </div>

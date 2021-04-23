@@ -1,0 +1,55 @@
+
+<div class="flex w-10/12 m-auto py-8" id="app">
+
+  <div class="w-4/12 mr-6">
+    <div>
+      <span class="mt-1 font-bold">All Requests</span>
+      <span id="clear-requests" class=" py-1 px-5 border border-gray-300 hover:bg-gray-200 rounded-lg cursor-pointer float-right" @click="clearRequestTab">Clear</span>
+    </div>
+
+    <div id="requests" class="mt-8 text-sm">
+      <div v-if="requests.length == 0">Your requests will be displayed here</div>
+
+      <div class="hover:bg-gray-300 cursor-pointer mb-4 p-2 rounded" v-for="r in requests" :data-sandbox-id="r.sandbox_id" @click="showRequestLog(r.sandbox_id, $event)">
+        <p><span v-bind:class="classObject(r.method)" class="font-bold">{{r.method}} </span>{{r.endpoint}}</p>
+        <p class="text-gray-500 mt-1">{{r.date}}</p>
+      </div>
+    </div>
+  </div>
+
+
+
+  <%# Right tab %>
+
+  <div class="w6/12">
+    <div id="default-tab" v-if="showing">
+      <div class="rounded-lg bg-blue-100 p-5">Waiting for requests on: https://localhost:4000/dumps/<%= @sandbox_uuid %></div>
+
+      <div class="mt-12">
+        <div class="text-center mb-2">Here's an example request:</div>
+        <div class="text-green-500 bg-gray-800 rounded-lg text-sm py-6 px-5">
+          <pre><code>curl --header "Content-Type: application/json" \
+--request POST \
+--data '{"username":"@dagaeus","password":"supersecret"}' \
+<%= @url %>dumps/<%= @sandbox_uuid %>
+</code></pre>
+        </div>
+      </div>
+    </div>
+
+
+    <%# show request tab %>
+
+    <div>
+      <%# <div><span>GET</span> https://localhost:4000/dumps/a86e2883-6c7d-4914-b22e-0a51646a70b5</div> %>
+
+    </div>
+
+
+  </div>
+</div>
+
+<script>
+let sandboxId = <%= @sandbox_id %>
+</script>
+<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/view_dump.js") %>"></script>

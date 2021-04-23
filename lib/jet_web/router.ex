@@ -5,7 +5,7 @@ defmodule JetWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
-    plug :protect_from_forgery
+    # plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
 
@@ -17,8 +17,13 @@ defmodule JetWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/create-dump", PageController, :create_dump
-    get "/inspect/:dump_id", PageController, :view_dump
+    get "/create-sandbox", PageController, :create_sandbox
+    get "/inspect/:sandbox_uuid", PageController, :view_sandbox
+    get "/fetch_responses/:sandbox_id", PageController, :fetch_sample_responses
+    post "/dumps/:sandbox_uuid", PageController, :post_handle
+    get "/dumps/:sandbox_uuid", PageController, :post_handle
+
+    resources "/mock", MockController
   end
 
   # Other scopes may use custom stacks.
