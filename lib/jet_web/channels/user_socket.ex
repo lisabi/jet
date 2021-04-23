@@ -3,6 +3,7 @@ defmodule JetWeb.UserSocket do
 
   ## Channels
   # channel "room:*", JetWeb.RoomChannel
+  channel "requests:*", JetWeb.RequestChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
