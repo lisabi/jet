@@ -28,8 +28,6 @@ defmodule JetWeb.Router do
     options "/dumps/:sandbox_uuid/*any", PageController, :post_handle
     trace("/dumps/:sandbox_uuid/*any", PageController, :post_handle)
     head("/dumps/:sandbox_uuid/*any", PageController, :post_handle)
-
-    resources "/mock", MockController
   end
 
   # Other scopes may use custom stacks.
