@@ -25,12 +25,30 @@ new vue({
     message: "Hello",
     showing: true,
     requests: [],
-    sample: [],
+    rules: [
+      { path: "/user", method: "POST" },
+      { path: "/my/api/path", method: "GET" },
+    ],
+    showModal: false,
+    isRuleTabActive: true,
+    transitions: {
+      fade: "fade",
+    },
   },
 
   methods: {
     clearRequestTab() {
       this.requests = [];
+    },
+
+    showRulesTab() {
+      this.showModal = this.isRuleTabActive = true;
+      // this.isRuleTabActive = true;
+    },
+
+    closeRulesTab() {
+      this.showModal = this.isRuleTabActive = false;
+      // this.isRuleTabActive = false;
     },
 
     showRequestLog(sandboxId, element) {

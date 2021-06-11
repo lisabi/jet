@@ -1,10 +1,17 @@
 
-<div class="flex w-10/12 m-auto py-8" id="app">
+<div class="w-10/12 m-auto py-8" id="app">
+  <div class="w-8/12 mx-auto">
+   <div class="flex flex-row justify-between">
+      <span class="mt-1 font-bold pt-3">All Requests({{requests.length}})</span>
+      <div class="flex justify-between">
+        <span class="flex py-2 px-5 hover:bg-gray-800 rounded-lg cursor-pointer mr-6 bg-gray-700 text-white" @click="showRulesTab">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>Add rule
+        </span>
+      <span id="clear-requests" class="py-2 px-5 border border-gray-300 hover:bg-gray-200 rounded-lg cursor-pointer" @click="clearRequestTab">Clear</span>
+      </div>
 
-  <div class="w-4/12 mr-6">
-    <div>
-      <span class="mt-1 font-bold">All Requests</span>
-      <span id="clear-requests" class=" py-1 px-5 border border-gray-300 hover:bg-gray-200 rounded-lg cursor-pointer float-right" @click="clearRequestTab">Clear</span>
     </div>
 
     <div id="requests" class="mt-8 text-sm">
@@ -15,38 +22,74 @@
         <p class="text-gray-500 mt-1">{{r.date}}</p>
       </div>
     </div>
-  </div>
-
-
-
-  <%# Right tab %>
-
-  <div class="w6/12">
     <div id="default-tab" v-if="showing">
-      <div class="rounded-lg bg-blue-100 p-5">Waiting for requests on: https://localhost:4000/dumps/<%= @sandbox_uuid %></div>
 
       <div class="mt-12">
         <div class="text-center mb-2">Here's an example request:</div>
         <div class="text-green-500 bg-gray-800 rounded-lg text-sm py-6 px-5">
-          <pre><code>curl --header "Content-Type: application/json" \
---request POST \
---data '{"username":"@dagaeus","password":"supersecret"}' \
-<%= @url %>dumps/<%= @sandbox_uuid %>
-</code></pre>
+          <div>
+          <code>
+            curl --header "Content-Type: application/json" \
+            --request POST \
+                --data '{"username":"@dagaeus","password":"supersecret"}' \
+                <%= @url %>dumps/<%= @sandbox_uuid %>
+           </code>
+           </div>
         </div>
       </div>
     </div>
 
-
     <%# show request tab %>
+  </div>
+  <%# App end %>
+   <transition
+    name="custom-classes-transition"
+    enter-active-class="animated pulse"
+    leave-active-class="animated pulse"
+    :duration="400"
+  >
+    <div id="modal" class="bg-gray-400 opacity-50 w-full h-full fixed overflow-auto left-0 top-0 z-10" v-if="showModal"></div>
+  </transition>
 
-    <div>
-      <%# <div><span>GET</span> https://localhost:4000/dumps/a86e2883-6c7d-4914-b22e-0a51646a70b5</div> %>
+   <transition
+    name="custom-classes-transition"
+    enter-active-class="animated slideInUp"
+    leave-active-class="animated slideOutDown"
+    :duration="800"
+  >
+    <div id="rulesTab" v-if="isRuleTabActive" :transition="transitions.fade" class="w-6/12 absolute bottom-0 mx-auto left-1/4 flex-col flex z-20">
+
+      <div id="current-rules" class="bg-white mb-3 p-4 rounded">
+        <div class="flex justify-between mb-3">
+          <b>Rules</b>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600 cursor-pointer" viewBox="0 0 20 20" fill="currentColor" @click="closeRulesTab">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+        </div>
+
+        <div id="rules-list">
+          <div v-for="rule in rules" class="flex flex-row rounded hover:bg-gray-200 cursor-pointer mb-1 p-2">
+            <%# <svg xmlns="http://www.w3.org/2000/svg" v-bind:class="classObject(rule.method)" class="h-5 w-5 mr-2 pt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+            </svg> %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 pb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+            </svg>
+            <div>{{rule.path}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="rules-config" class="bg-white p-4 rounded">
+        <%# Rules forms %>
+      </div>
 
     </div>
+  </transition>
 
 
-  </div>
+
+
 </div>
 
 <script>
