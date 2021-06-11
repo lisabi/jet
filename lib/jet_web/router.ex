@@ -20,16 +20,19 @@ defmodule JetWeb.Router do
     get "/create-sandbox", PageController, :create_sandbox
     get "/inspect/:sandbox_uuid", PageController, :view_sandbox
     get "/fetch_responses/:sandbox_id", PageController, :fetch_sample_responses
-    post "/dumps/:sandbox_uuid", PageController, :post_handle
-    get "/dumps/:sandbox_uuid", PageController, :post_handle
+
+    post "/dumps/:sandbox_uuid/*any", PageController, :post_handle
+    get "/dumps/:sandbox_uuid/*any", PageController, :post_handle
+    put "/dumps/:sandbox_uuid/*any", PageController, :post_handle
+    delete "/dumps/:sandbox_uuid/*any", PageController, :post_handle
+    options "/dumps/:sandbox_uuid/*any", PageController, :post_handle
+    trace("/dumps/:sandbox_uuid/*any", PageController, :post_handle)
+    head("/dumps/:sandbox_uuid/*any", PageController, :post_handle)
 
     resources "/mock", MockController
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", JetWeb do
-  #   pipe_through :api
-  # end
 
   # Enables LiveDashboard only for development
   #

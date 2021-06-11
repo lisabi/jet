@@ -23,8 +23,9 @@ defmodule JetWeb.PageController do
     # IO.inspect(sandbox_id, label: "Sandbox Id")
 
     query =
-      from r in Request,
+      from(r in Request,
         where: r.sandbox_id == ^sandbox_id
+      )
 
     requests = Repo.all(query)
     render(conn, "view_sandbox.json", %{requests: requests})
