@@ -5,7 +5,7 @@ defmodule JetWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
-    # plug :protect_from_forgery
+    plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
 
@@ -18,16 +18,16 @@ defmodule JetWeb.Router do
 
     get "/", PageController, :index
     get "/create-sandbox", PageController, :create_sandbox
-    get "/inspect/:sandbox_uuid", PageController, :view_sandbox
-    get "/fetch_responses/:sandbox_id", PageController, :fetch_sample_responses
+    get "/inspect/:sandbox_uuid", SandboxController, :show
+    get "/sandboxes/:sandbox_id", SandboxController, :fetch_requests
 
-    post "/dumps/:sandbox_uuid/*any", PageController, :post_handle
-    get "/dumps/:sandbox_uuid/*any", PageController, :post_handle
-    put "/dumps/:sandbox_uuid/*any", PageController, :post_handle
-    delete "/dumps/:sandbox_uuid/*any", PageController, :post_handle
-    options "/dumps/:sandbox_uuid/*any", PageController, :post_handle
-    trace("/dumps/:sandbox_uuid/*any", PageController, :post_handle)
-    head("/dumps/:sandbox_uuid/*any", PageController, :post_handle)
+    post "/s/:sandbox_uuid/*any", RequestController, :create
+    get "/s/:sandbox_uuid/*any", RequestController, :create
+    put "/s/:sandbox_uuid/*any", RequestController, :create
+    delete "/s/:sandbox_uuid/*any", RequestController, :create
+    options "/s/:sandbox_uuid/*any", RequestController, :create
+    trace("/s/:sandbox_uuid/*any", RequestController, :create)
+    head("/s/:sandbox_uuid/*any", RequestController, :create)
   end
 
   # Other scopes may use custom stacks.

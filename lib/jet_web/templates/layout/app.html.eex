@@ -11,10 +11,13 @@
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
-  <div id="header" class="bg-green-600 py-3">
-    <div class="w-10/12 m-auto">
+  <div id="header" class="bg-gray-800 py-3">
+    <div class="w-10/12 m-auto ">
       <%= link(to: Routes.page_path(@conn, :index), class: "flex inline-block") do %>
-      <img src="<%= Routes.static_path(@conn, "/images/logo.png") %>" alt="Jet logo"  style="width:40px; height:35px;"><span class="text-white font-bold ml-4 mt-2">HTTP Jet</span>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" viewBox="0 0 20 20" fill="currentColor">
+      <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+      </svg>
+      <span class="text-white font-bold ml-2 mt-1">Jet</span>
       <% end %>
     </div>
   </div>

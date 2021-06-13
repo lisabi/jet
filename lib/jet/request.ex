@@ -1,20 +1,43 @@
 defmodule Jet.Request do
-  use Ecto.Schema
-  import Ecto.Changeset
+  @moduledoc """
+  Request Context
+  """
+  alias Jet.Sandbox
+  alias Jet.Sandboxes.Sandbox
+  alias Jet.Repo
 
-  schema "requests" do
-    field :endpoint, :string
-    field :http_method, :string
-    field :request_body, :map
-    field :request_header, :map
-    belongs_to :sandbox, Jet.Sandbox
+  def add_request(conn, sandbox_uuid) do
+    case Repo.get_by(Sandbox, sandbox_uuid: sandbox_uuid) do
+      %Sandbox{} = sandbox ->
+        headers = Enum.into(conn.req_headers, %{})
+        http_method = conn.method
+        body_params = conn.body_params
+        endpoint = conn.request_path
 
-    timestamps()
-  end
+        request =
+          Ecto.build_assoc(sandbox, :requests,
+            endpoint: endpoint,
+            request_body: body_params,
+            http_method: http_method,
+            request_header: headers
+          )
 
-  def changeset(item, params \\ %{}) do
-    item
-    |> cast(params, [:endpoint, :request_body, :http_method, :request_header])
-    |> validate_required([:endpoint, :request_body, :http_method, :request_header])
+        {:ok, item} = Repo.insert(request)
+
+        JetWeb.Endpoint.broadcast("requests:#{item.sandbox_id}", "response:new", %{
+          request: %{
+            method: item.http_method,
+            endpoint: item.endpoint,
+            date: item.inserted_at,
+            request_body: item.request_body,
+            sandbox_id: item.sandbox_id
+          }
+        })
+
+        {:ok, %{endpoint: endpoint, body: body_params}}
+
+      nil ->
+        {:error}
+    end
   end
 end

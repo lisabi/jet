@@ -58,6 +58,10 @@ new vue({
       this.showing = false;
     },
 
+    toggleIconsDisplay(param) {
+      let rulesList = param.target;
+    },
+
     classObject(passedClass) {
       if (passedClass == "DEL") {
         return "text-red-500";
@@ -71,7 +75,7 @@ new vue({
 
   mounted() {
     let vueInstance = this;
-    axios.get(`/fetch_responses/${sandboxId}`).then(function ({ data }) {
+    axios.get(`/sandboxes/${sandboxId}`).then(function ({ data }) {
       vueInstance.requests = data;
     });
 

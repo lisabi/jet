@@ -5,8 +5,11 @@
 
   <p class="mb-28 mt-12 text-lg text-gray-500">This free service gives you a unique URL to send requests to and inspect them.</p>
 
-  <%= link(to: Routes.page_path(@conn, :create_sandbox), class: "bg-green-600 hover:bg-green-700 py-3 px-6 text-white rounded-lg inline-block shadow-lg")  do %>
-    Create Sandbox<img src="<%= Routes.static_path(@conn, "/images/d.png") %>" alt="Arrow icon" width="18px" class="ml-2 inline float-right mt-1 shadow-xl">
+  <%= link(to: Routes.page_path(@conn, :create_sandbox), class: "bg-gray-700 hover:bg-gray-800 py-3 px-6 text-white rounded-lg inline-block shadow-xl")  do %>
+    Create Sandbox
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2 inline float-right mt-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+    </svg>
   <% end %>
 
 </div>
