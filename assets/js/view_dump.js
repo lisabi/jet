@@ -59,7 +59,23 @@ new vue({
     },
 
     toggleIconsDisplay(param) {
-      let rulesList = param.target;
+      let rulesListIconsSet = param.target.children[1];
+
+      let rulesListIconsAll = document.querySelectorAll(".rules-list-icons .icon");
+      Array.from(rulesListIconsAll).forEach((element) => {
+        element.classList.add("hidden");
+      });
+
+      Array.from(rulesListIconsSet.children).forEach((element) => {
+        element.classList.remove("hidden");
+      });
+    },
+
+    hideIconsDisplay() {
+      let rulesListIconsAll = document.querySelectorAll(".rules-list-icons .icon");
+      Array.from(rulesListIconsAll).forEach((element) => {
+        element.classList.add("hidden");
+      });
     },
 
     classObject(passedClass) {
