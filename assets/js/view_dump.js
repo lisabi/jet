@@ -1,6 +1,9 @@
 import vue from "vue";
 import axios from "axios";
 import { Socket } from "phoenix";
+import hljs from "highlight.js";
+import json from "highlight.js/lib/languages/json";
+hljs.registerLanguage("json", json);
 let socket = new Socket("/socket", { params: { token: "window.userToken" } });
 socket.connect();
 
@@ -17,8 +20,6 @@ channel
     console.log("Unable to join", resp);
   });
 
-// channel.push("ping", { payload: "hello" });
-
 new vue({
   el: "#app",
   data: {
@@ -30,7 +31,7 @@ new vue({
       { path: "/my/api/path", method: "GET" },
     ],
     showModal: false,
-    isRuleTabActive: true,
+    isRuleTabActive: false,
     transitions: {
       fade: "fade",
     },
@@ -55,7 +56,34 @@ new vue({
       let clickedElement = element.target.parentElement;
       // = "bg-red-300";
       // console.log(clickedElement.classList);
-      this.showing = false;
+      // this.showing = false;
+    },
+
+    toggleRequestDetailsTab(event) {
+      let eventState = event.target.getAttribute("data-events-state");
+      let elementToHide = event.target.nextElementSibling.nextElementSibling;
+      let states = {
+        show: "flex",
+        hide: "hidden",
+      };
+
+      if (eventState == states.hide) {
+        elementToHide.classList.remove(states.hide);
+        elementToHide.classList.add(states.show);
+        event.target.setAttribute("data-events-state", states.show);
+      } else {
+        elementToHide.classList.remove(states.show);
+        elementToHide.classList.add(states.hide);
+        event.target.setAttribute("data-events-state", states.hide);
+      }
+    },
+
+    prettyPrint(json) {
+      let html = hljs.highlight(JSON.stringify(json, null, 2), {
+        language: "json",
+      }).value;
+
+      return html;
     },
 
     toggleIconsDisplay(param) {
@@ -79,12 +107,15 @@ new vue({
     },
 
     classObject(passedClass) {
-      if (passedClass == "DEL") {
-        return "text-red-500";
+      console.log(passedClass);
+      if (passedClass == "DELETE") {
+        return "bg-red-500";
       } else if (passedClass == "GET") {
-        return "text-blue-500";
+        return "bg-blue-500";
       } else if (passedClass == "POST") {
-        return "text-yellow-500";
+        return "bg-yellow-500";
+      } else if (passedClass == "PUT") {
+        return "bg-green-500";
       }
     },
   },
