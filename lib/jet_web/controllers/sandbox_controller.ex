@@ -11,6 +11,7 @@ defmodule JetWeb.SandboxController do
 
   def fetch_requests(conn, %{"sandbox_id" => sandbox_id}) do
     requests = Sandbox.fetch_sandbox_requests(sandbox_id)
+
     render(conn, "view_sandbox.json", %{requests: requests})
   end
 end

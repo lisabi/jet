@@ -5,7 +5,7 @@ defmodule JetWeb.SandboxView do
     render_many(requests, __MODULE__, "request.json")
   end
 
-  def render("request.json", %{page: request}) do
+  def render("request.json", %{sandbox: request}) do
     %{
       method: request.http_method,
       endpoint: request.endpoint,
