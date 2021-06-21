@@ -1,6 +1,6 @@
 
 <div class="w-10/12 m-auto py-8" id="app">
-  <div class="w-8/12 mx-auto">
+  <div class="w-11/12 mx-auto">
    <div class="flex flex-row justify-between">
       <span class="mt-1 font-bold pt-3">All Requests({{requests.length}})</span>
       <div class="flex justify-between">
@@ -17,24 +17,24 @@
     <div id="requests" class="mt-8 text-sm">
       <div v-if="requests.length == 0">Your requests will be displayed here</div>
 
-      <div class="hover:bg-gray-300 cursor-pointer mb-4 p-2 rounded" v-for="r in requests" :data-sandbox-id="r.sandbox_id" @click="showRequestLog(r.sandbox_id, $event)">
-        <p><span v-bind:class="classObject(r.method)" class="font-bold">{{r.method}} </span>{{r.endpoint}}</p>
-        <p class="text-gray-500 mt-1">{{r.date}}</p>
-      </div>
-    </div>
-    <div id="default-tab" v-if="showing">
+      <div class="hover:bg-gray-100 cursor-pointer mb-4 p-3 rounded border border-gray-400 border-dashed" v-for="r in requests" :data-sandbox-id="r.sandbox_id" @click="showRequestLog(r.sandbox_id, $event)">
+        <p @click="toggleRequestDetailsTab($event)" data-events-state="hidden">
+          <span v-bind:class="classObject(r.method)" class="text-white rounded p-1 text-xs mr-1">{{r.method}} </span>{{r.endpoint}}
+        </p>
 
-      <div class="mt-12">
-        <div class="text-center mb-2">Here's an example request:</div>
-        <div class="text-green-500 bg-gray-800 rounded-lg text-sm py-6 px-5">
-          <div>
-          <code>
-            curl --header "Content-Type: application/json" \
-            --request POST \
-                --data '{"username":"@dagaeus","password":"supersecret"}' \
-                <%= @url %>dumps/<%= @sandbox_uuid %>
-           </code>
-           </div>
+        <p class="text-gray-500 mt-1">{{r.date}}</p>
+
+        <div id="request-details-tab" class="hidden justify-between mt-2">
+          <div style="width: 49.3%" id="request-body">
+            <div class="mb-1 font-bold">Request Body</div>
+            <pre class="request-body hljs bg-gray-700 p-2 rounded w-full"><code v-html="prettyPrint(r.request_body)"></code></pre>
+          </div>
+
+          <div style="width: 49.3%">
+            <div class="mb-1 font-bold">Response Body</div>
+            <pre class="response-body hljs bg-gray-700 p-2 rounded w-full"><code v-html="prettyPrint(r.request_body)"></code></pre>
+          </div>
+
         </div>
       </div>
     </div>
@@ -57,7 +57,7 @@
     leave-active-class="animated slideOutDown"
     :duration="800"
   >
-    <div id="rulesTab" v-show="isRuleTabActive" :transition="transitions.fade" class="w-6/12 absolute bottom-0 mx-auto left-1/4 flex-col flex z-20">
+    <div id="rulesTab" v-show="isRuleTabActive" :transition="transitions.fade" class="w-6/12 fixed bottom-0 mx-auto left-1/4 flex-col flex z-20">
 
       <div id="current-rules" class="bg-white mb-3 p-4 rounded">
         <div class="flex justify-between mb-3">

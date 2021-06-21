@@ -62,7 +62,8 @@ config :jet, JetWeb.Endpoint,
       ~r"priv/gettext/.*(po)$",
       ~r"lib/jet_web/(live|views)/.*(ex)$",
       ~r"lib/jet_web/templates/.*(eex)$"
-    ]
+    ],
+    iframe_attrs: [style: "display: none"]
   ]
 
 # Do not include metadata nor timestamps in development logs
