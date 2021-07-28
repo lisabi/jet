@@ -3,13 +3,14 @@
   <div class="w-11/12 mx-auto">
    <div class="flex flex-row justify-between">
       <span class="mt-1 font-bold pt-3">All Requests({{requests.length}})</span>
-      <div class="flex justify-between">
-        <span class="flex py-2 px-5 hover:bg-gray-800 rounded-lg cursor-pointer mr-6 bg-gray-700 text-white" @click="showRulesTab">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-          </svg>Add rule
+      <div class="flex justify-between text-sm">
+        <span class="flex py-2 px-5 hover:bg-gray-800 rounded-md cursor-pointer mr-6 bg-gray-700 text-white shadow-md" @click="showRulesTab">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg> Rules
         </span>
-      <span id="clear-requests" class="py-2 px-5 border border-gray-300 hover:bg-gray-200 rounded-lg cursor-pointer" @click="clearRequestTab">Clear</span>
+      <span id="clear-requests" class="py-2 px-5 border border-gray-300 hover:bg-gray-100 rounded-md cursor-pointer shadow-md" @click="clearRequestTab">Clear</span>
       </div>
 
     </div>
@@ -91,7 +92,43 @@
       </div>
 
       <div id="rules-config" class="bg-white p-4 rounded">
-        <%# Rules forms %>
+
+        <div class="flex justify-between">
+          <div class="w-3/12">
+            <div class="mb-1">Method</div>
+            <div><select type="text" class="border border-solid border-gray-300 w-full rounded p-2" v-model="rule.method">
+            <option v-for="v in verbs">{{v}}</option>
+            </select></div>
+          </div>
+          <div class="w-8/12">
+            <div class="mb-1">Path</div>
+            <div><input type="text" class="border border-solid border-gray-300 w-full rounded p-2" value="/" v-model="rule.path"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="mb-1">Response Header</div>
+          <textarea rows="4" class="border border-solid border-gray-300 w-full rounded p-2 mb-2" v-model="rule.request_header"></textarea>
+          <div class="mb-1">Response Body</div>
+          <textarea class="border border-solid border-gray-300 w-full rounded p-2" rows="4" v-model="rule.response_header"></textarea>
+        </div>
+
+        <div class="flex justify-between">
+          <div class="w-4/12">
+            <div class="mb-1">Response Code</div>
+            <input type="text" v-model="rule.status_code" class="border border-solid border-gray-300 w-full rounded p-2 mb-2">
+          </div>
+
+          <div class="w-7/12">
+            <div class="mb-1">Description</div>
+            <input type="text" v-model="rule.description" class="border border-solid border-gray-300 w-full rounded p-2 mb-2">
+          </div>
+        </div>
+
+        <div class="flex justify-end mt-4">
+            <button class="px-8 py-2 border border-solid border-gray-500 bg-gray-400 hover:bg-gray-500 rounded text-gray-100 shadow-md mr-4">Cancel</button>
+            <button class="px-8 py-2 border border-solid border-green-600 bg-green-500 hover:bg-green-600 rounded text-white shadow-md" @click="saveRule">Save Rule</button>
+          </div>
       </div>
 
     </div>

@@ -20,24 +20,37 @@ channel
     console.log("Unable to join", resp);
   });
 
+let verbs = ["get", "post", "put", "delete", "patch", "options", "head"].map((item) =>
+  item.toUpperCase()
+);
+
 new vue({
   el: "#app",
   data: {
-    message: "Hello",
+    verbs,
     showing: true,
     requests: [],
-    rules: [
-      { path: "/user", method: "POST" },
-      { path: "/my/api/path", method: "GET" },
-    ],
-    showModal: false,
-    isRuleTabActive: false,
+    rules: [{ path: "/users/1", method: "GET" }],
+    showModal: true,
+    isRuleTabActive: true,
     transitions: {
       fade: "fade",
+    },
+    rule: {
+      method: "",
+      path: "/",
+      status_code: "",
+      response_header: "",
+      response_body: "",
+      description: "",
     },
   },
 
   methods: {
+    saveRule() {
+      console.log(this.rule);
+    },
+
     clearRequestTab() {
       this.requests = [];
     },
@@ -107,7 +120,6 @@ new vue({
     },
 
     classObject(passedClass) {
-      console.log(passedClass);
       if (passedClass == "DELETE") {
         return "bg-red-500";
       } else if (passedClass == "GET") {

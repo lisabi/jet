@@ -6,6 +6,7 @@ defmodule Jet.Request do
   alias Jet.Sandboxes.Sandbox
   alias Jet.Repo
 
+  @spec add_request(%Plug.Conn{}, String.t()) :: {:ok, Map.t()} | {:error}
   def add_request(conn, sandbox_uuid) do
     case Repo.get_by(Sandbox, sandbox_uuid: sandbox_uuid) do
       %Sandbox{} = sandbox ->
@@ -39,5 +40,8 @@ defmodule Jet.Request do
       nil ->
         {:error}
     end
+  end
+
+  def view do
   end
 end
